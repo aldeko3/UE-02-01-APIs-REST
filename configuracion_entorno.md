@@ -97,7 +97,22 @@ pip list
 
 ---
 
-### Paso 6: Desactivar o Eliminar el Entorno Virtual
+### Paso 6: Generar el Servidor con OpenAPI Generator
+
+A partir de tu especificación OpenAPI (por ejemplo, el archivo `openapi.yaml`), puedes generar automáticamente la estructura de tu API en Python Flask utilizando `openapi-generator-cli`:
+
+```bash
+openapi-generator-cli generate -i openapi.yaml -g python-flask -o usuarios_api
+```
+
+> **¿Qué hace este comando?**
+> * `-i openapi.yaml`: Especifica el archivo de definición de la API (OpenAPI / Swagger).
+> * `-g python-flask`: Indica el generador de código deseado (en este caso, un servidor Flask en Python).
+> * `-o usuarios_api`: Define la carpeta de salida donde se creará el código fuente generado.
+
+---
+
+### Paso 7: Desactivar o Eliminar el Entorno Virtual
 
 * **Desactivar el entorno:**  
   Cuando termines de trabajar en tu proyecto y quieras volver al shell estándar de macOS, ejecuta:

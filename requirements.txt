@@ -3,3 +3,4 @@ notebook
 requests
 pytest
 mysql-connector-python
+openapi-generator-cli
