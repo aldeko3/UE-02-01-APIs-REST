@@ -1,1 +1,4 @@
+.venv
 *.txt
+configuracion_entorno.md
+.env

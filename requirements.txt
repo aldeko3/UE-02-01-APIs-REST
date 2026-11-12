@@ -1,6 +1,25 @@
+# ==============================================================================
+# Archivo de Requerimientos - APIs REST (Flask & FastAPI)
+# Universidad Europea
+# ==============================================================================
+
+# --- Frameworks Web & Servidores ---
+fastapi
+flask
+uvicorn
+
+# --- Base de Datos ---
+mysql-connector-python
+
+# --- Validación, Configuración y Red ---
+pydantic[email]
+python-dotenv
+requests
+
+# --- Testing & Herramientas de Desarrollo ---
+openapi-generator-cli
+pytest
+
+# --- Jupyter Notebooks & Kernel ---
 ipykernel
 notebook
-requests
-pytest
-mysql-connector-python
-openapi-generator-cli
