@@ -33,3 +33,7 @@ usuarios_db = [
 @app.get("/")
 def root():
     return {"message": "Hola Mundo!"}
+
+@app.get("/users")
+def get_users():
+    return usuarios_db
