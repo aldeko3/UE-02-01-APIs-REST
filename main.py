@@ -1,15 +1,12 @@
 import os
-import requests
-import mysql.connector
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI
 
 load_dotenv()
 GENIUS_TOKEN = os.getenv("GENIUS_ACCESS_TOKEN")
 
 app = FastAPI()
 
-# 1. Ruta raíz (prueba)
 @app.get("/")
 def root():
-    return {"message": "Hola Mundo"}
+    return {"message": "Hola Mundo!"}
