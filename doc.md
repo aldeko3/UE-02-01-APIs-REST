@@ -28,43 +28,14 @@ Por motivos de seguridad y buenas prácticas en control de versiones, las claves
 2. **Archivo `.env.example`:** Plantilla sin valores reales para documentar qué variables de entorno requiere el proyecto.
 3. **Archivo `.gitignore`:** Configurado para excluir `.venv/`, `.env` y `__pycache__/` del repositorio remoto.
 
-## 3. Análisis Previo con Spotify Web API y Cambio a Genius API
+Obtener claves de acceso de Twitch (TWITCH_CLIENT_ID y TWITCH_CLIENT_SECRET)
+Gestión del Token de Twitch y su caducidad
+https://dev.twitch.tv/docs/api
 
-Inicialmente se realizó el registro de la aplicación en [Spotify for Developers](https://developer.spotify.com/dashboard) y se validó el flujo **OAuth 2.0 (Client Credentials Flow)** mediante Postman:
+Nombre (UE-02-01-APIs-REST): Identifica la app vinculándola con el proyecto y la asignatura.
 
-* **Obtención del token (`POST https://accounts.spotify.com/api/token`):** Respuesta `200 OK` devolviendo un `access_token` válido.
-* **Consulta de catálogo (`GET https://api.spotify.com/v1/search`):** Respuesta `403 Forbidden` con el mensaje:
-  > *"Premium subscription required for the owner of the app. When the subscription status changes, it can take a few hours before requests are allowed again."*
-* **Consulta de recomendaciones (`GET https://api.spotify.com/v1/recommendations`):** Respuesta `404 Not Found` (endpoint restringido para nuevas aplicaciones).
+URL de redireccionamiento (http://localhost): Dirección local exigida por OAuth2 para desarrollo sin certificados SSL.
 
-### Justificación técnica del cambio de proveedor
+Categoría (Application Integration): Clasifica el proyecto como una integración de backend mediante API.
 
-Desde **marzo de 2026**, Spotify exige que el propietario de una aplicación registrada disponga de una suscripción **Spotify Premium** activa para poder consumir los endpoints de consulta de su Web API. Al no disponer de una cuenta Premium, se decidió migrar la integración externa a **Genius API**, ya que:
-
-1. Es **100 % gratuita** y permite realizar consultas reales de canciones y artistas sin restricciones de suscripción.
-2. Mantiene el mismo esquema de autenticación profesional mediante **Bearer Token** en las cabeceras HTTP (`Authorization: Bearer <token>`), respetando fielmente el planteamiento original del ejercicio.
-
-## 4. Registro de la Aplicación en Genius API
-
-Siguiendo la [documentación oficial de Genius API](https://docs.genius.com/), se registró el cliente de la aplicación:
-
-1. Acceso al portal de desarrolladores en [https://genius.com/api-clients](https://genius.com/api-clients).
-2. Creación de un nuevo cliente API (`UE-02-01-APIs-REST`) con los siguientes parámetros:
-   * **App Website URL:** `http://localhost:8000`
-   * **Redirect URI:** `http://localhost:8000/callback`
-3. Generación de las credenciales de acceso (`Client ID`, `Client Secret` y **`Client Access Token`**).
-4. Almacenamiento seguro del token en el archivo local `.env`:
-
-```env
-GENIUS_ACCESS_TOKEN=tu_client_access_token_generado
-```
-
-## 5. Validación de Llamadas HTTP a Genius en Postman
-
-Antes de programar la integración en Python, se verificó el funcionamiento del endpoint de búsqueda de Genius desde Postman:
-
-* **Método:** `GET`
-* **URL:** `https://api.genius.com/search?q=Daft%20Punk`
-* **Authorization:** `Bearer Token` (introduciendo el `GENIUS_ACCESS_TOKEN` generado)
-* **Body:** `none`
-* **Resultado esperado:** `200 OK` con un objeto JSON estructurado (`meta` y `response.hits`) que contiene la información de las canciones y artistas encontrados (`title`, `primary_artist.name`, `url`, `song_art_image_thumbnail_url`).
+Tipo de cliente (Confidencial): Permite guardar de forma privada el Client Secret en el servidor (.env).
