@@ -51,3 +51,86 @@ def get_streamer_data(login: str, client_id: str, client_secret: str) -> dict:
         "profile_image_url": streamer["profile_image_url"],
     }
     return result
+
+def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
+
+    #No hace falta hacer get_twitch_token primero ya que en get_streamer_data se obtiene
+    streamer = get_streamer_data(login, client_id, client_secret)
+    if "error" in streamer:
+        return streamer
+
+    token = get_twitch_token(client_id, client_secret)
+    if not token:
+        return {"error": "Could not authenticate with Twitch API"}
+
+    url = "https://api.twitch.tv/helix/videos"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Client-Id": client_id,
+    }
+    params = {
+        "user_id": streamer["twitch_streamer_id"],
+        "first": 10,  # Devuelve los últimos 10 vídeos/directos
+    }
+
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=10)
+        if response.status_code != 200:
+            return {"error": "Error querying Twitch API"}
+    except requests.exceptions.RequestException as e:
+        return {"error": str(e)}
+
+    data = response.json().get("data", [])
+
+    result = {
+        "streamer": streamer["login"],
+        "videos": [
+            {
+                "twitch_video_id": video["id"],
+                "title": video["title"],
+                "streamer_login": video["user_login"],
+                "url": video["url"],
+                "duration": video["duration"],
+                "view_count": video["view_count"],
+                "created_at": video["created_at"],
+            }
+            for video in data
+        ],
+    }
+
+    return result
+
+def get_video_by_id(video_id: str, client_id: str, client_secret: str) -> dict:
+    token = get_twitch_token(client_id, client_secret)
+    if not token:
+        return {"error": "Could not authenticate with Twitch API"}
+
+    url = "https://api.twitch.tv/helix/videos"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Client-Id": client_id,
+    }
+    params = {"id": video_id}
+
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=10)
+        if response.status_code != 200:
+            return {"error": "Video not found on Twitch"}
+    except requests.exceptions.RequestException as e:
+        return {"error": str(e)}
+
+    data = response.json().get("data", [])
+    if not data:
+        return {"error": "Video not found on Twitch"}
+
+    video = data[0]
+
+    result = {
+        "twitch_video_id": video["id"],
+        "title": video["title"],
+        "streamer_login": video["user_login"],
+        "url": video["url"],
+        "duration": video["duration"],
+    }
+
+    return result

@@ -17,3 +17,10 @@ class UserUpdate(BaseModel):
 
 class FavoriteStreamerCreate(BaseModel):
     login: str
+
+class PlaylistCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+
+class PlaylistItemCreate(BaseModel):
+    twitch_video_id: str
