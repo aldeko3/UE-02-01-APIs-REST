@@ -1,8 +1,18 @@
+import time
 from typing import Optional
 import requests
 
+_token_cache = {
+    "access_token": None,
+    "expires_at": 0.0,
+}
 
+# Se guarde en caché
 def get_twitch_token(client_id: str, client_secret: str) -> Optional[str]:
+    now = time.time()
+    if _token_cache["access_token"] and now < _token_cache["expires_at"]:
+        return _token_cache["access_token"]
+
     url = "https://id.twitch.tv/oauth2/token"
     payload = {
         "client_id": client_id,
@@ -13,7 +23,15 @@ def get_twitch_token(client_id: str, client_secret: str) -> Optional[str]:
         response = requests.post(url, data=payload, timeout=10)
         if response.status_code != 200:
             return None
-        return response.json().get("access_token")
+
+        data = response.json()
+        access_token = data.get("access_token")
+        expires_in = data.get("expires_in", 3600)
+
+        _token_cache["access_token"] = access_token
+        _token_cache["expires_at"] = now + expires_in - 60
+
+        return access_token
     except requests.exceptions.RequestException:
         return None
 
@@ -54,7 +72,7 @@ def get_streamer_data(login: str, client_id: str, client_secret: str) -> dict:
 
 def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
 
-    #No hace falta hacer get_twitch_token primero ya que en get_streamer_data se obtiene
+    # No hace falta hacer get_twitch_token primero ya que en get_streamer_data se obtiene
     streamer = get_streamer_data(login, client_id, client_secret)
     if "error" in streamer:
         return streamer
