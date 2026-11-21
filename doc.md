@@ -39,3 +39,13 @@ URL de redireccionamiento (http://localhost): Dirección local exigida por OAuth
 Categoría (Application Integration): Clasifica el proyecto como una integración de backend mediante API.
 
 Tipo de cliente (Confidencial): Permite guardar de forma privada el Client Secret en el servidor (.env).
+
+Almacenar los valores en .env
+
+en DBeaver:
+
+CREATE DATABASE IF NOT EXISTS ue_02_01_apis_rest_twitch
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE ue_02_01_apis_rest_twitch;
