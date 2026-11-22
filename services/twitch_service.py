@@ -41,7 +41,7 @@ def get_twitch_token(client_id: str, client_secret: str) -> str | None:
 def get_streamer_data(login: str, client_id: str, client_secret: str) -> dict:
     token = get_twitch_token(client_id, client_secret)
     if not token:
-        return {"error": "Could not authenticate with Twitch API"}
+        return {"error": "No se pudo autenticar con la API de Twitch"}
 
     url = "https://api.twitch.tv/helix/users"
     headers = {
@@ -53,13 +53,13 @@ def get_streamer_data(login: str, client_id: str, client_secret: str) -> dict:
     try:
         response = requests.get(url, headers=headers, params=params, timeout=10)
         if response.status_code != 200:
-            return {"error": "Error querying Twitch API"}
+            return {"error": "Error al consultar la API de Twitch"}
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
 
     data = response.json().get("data", [])
     if not data:
-        return {"error": "Streamer not found"}
+        return {"error": "Streamer no encontrado"}
 
     streamer = data[0]
     result = {
@@ -81,7 +81,7 @@ def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
 
     token = get_twitch_token(client_id, client_secret)
     if not token:
-        return {"error": "Could not authenticate with Twitch API"}
+        return {"error": "No se pudo autenticar con la API de Twitch"}
 
     url = "https://api.twitch.tv/helix/videos"
     headers = {
@@ -96,7 +96,7 @@ def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
     try:
         response = requests.get(url, headers=headers, params=params, timeout=10)
         if response.status_code != 200:
-            return {"error": "Error querying Twitch API"}
+            return {"error": "Error al consultar la API de Twitch"}
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
 
@@ -123,7 +123,7 @@ def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
 def get_video_by_id(video_id: str, client_id: str, client_secret: str) -> dict:
     token = get_twitch_token(client_id, client_secret)
     if not token:
-        return {"error": "Could not authenticate with Twitch API"}
+        return {"error": "No se pudo autenticar con la API de Twitch"}
 
     url = "https://api.twitch.tv/helix/videos"
     headers = {
@@ -135,13 +135,13 @@ def get_video_by_id(video_id: str, client_id: str, client_secret: str) -> dict:
     try:
         response = requests.get(url, headers=headers, params=params, timeout=10)
         if response.status_code != 200:
-            return {"error": "Video not found on Twitch"}
+            return {"error": "Vídeo no encontrado en Twitch"}
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
 
     data = response.json().get("data", [])
     if not data:
-        return {"error": "Video not found on Twitch"}
+        return {"error": "Vídeo no encontrado en Twitch"}
 
     video = data[0]
 

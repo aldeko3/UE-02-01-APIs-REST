@@ -39,7 +39,7 @@ MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "ue_02_01_apis_rest_twitch")
 
 # Con información para la documentación
 app = FastAPI(
-    title = "Twitch Streamers & Playlists API",
+    title = "API de Stremaers de Twitch y listas de reproducción",
     description = "API REST desarrollada con FastAPI y MySQL integrada con la API oficial de Twitch.",
     version = "1.0.0",
     openapi_tags = [
@@ -110,7 +110,7 @@ def create_user(user: UserCreate):
     connection.close()
 
     return JSONResponse(
-        content = {"message": "User added successfully"},
+        content = {"message": "Usuario creado correctamente"},
         status_code = 201,
     )
 
@@ -148,7 +148,7 @@ def update_user(user_id: int, user: UserUpdate):
         raise HTTPException(status_code = 404, detail = "Usuario no encontrado")
 
     return JSONResponse(
-        content = {"message": "User updated successfully"},
+        content = {"message": "Usuario actualizado correctamente"},
         status_code = 200,
     )
 
@@ -169,7 +169,7 @@ def delete_user(user_id: int):
         raise HTTPException(status_code = 404, detail = "Usuario no encontrado")
 
     return JSONResponse(
-        content = {"message": "User deleted successfully"},
+        content = {"message": "Usuario eliminado correctamente"},
         status_code = 200,
     )
 
@@ -184,7 +184,7 @@ def get_twitch_streamer(login: str):
     return JSONResponse(content = streamer_data, status_code = 200)
 
 
-@app.get("/twitch/streamers/{login}/videos", tags = ["Twitch"], summary = "Listar últimos vídeos/VODs de un streamer")
+@app.get("/twitch/streamers/{login}/videos", tags = ["Twitch"], summary = "Listar últimos vídeos de un streamer")
 def get_twitch_streamer_videos(login: str):
     data = get_streamer_videos(login, TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET)
     if "error" in data:
@@ -249,7 +249,7 @@ def add_favorite_streamer(user_id: int, favorite: FavoriteStreamerCreate):
         connection.close()
 
     return JSONResponse(
-        content = {"message": f"Streamer '{streamer_data['login']}' added to favorites"},
+        content = {"message": f"Streamer '{streamer_data['login']}' añadido a favoritos"},
         status_code = 201,
     )
 
@@ -279,7 +279,7 @@ def delete_favorite_streamer(user_id: int, twitch_streamer_id: str):
         raise HTTPException(status_code = 404, detail = "Streamer favorito no encontrado para este usuario")
 
     return JSONResponse(
-        content = {"message": "Favorite streamer removed successfully"},
+        content = {"message": "Streamer favorito eliminado correctamente"},
         status_code = 200,
     )
 
@@ -337,7 +337,7 @@ def create_playlist(user_id: int, playlist: PlaylistCreate):
 
     return JSONResponse(
         content = {
-            "message": "Playlist created successfully",
+            "message": "Playlist creada correctamente",
             "playlist_id": new_playlist_id,
         },
         status_code = 201,
@@ -360,7 +360,7 @@ def delete_playlist(playlist_id: int):
         raise HTTPException(status_code = 404, detail = "Playlist no encontrada")
 
     return JSONResponse(
-        content = {"message": "Playlist deleted successfully"},
+        content = {"message": "Playlist eliminada correctamente"},
         status_code = 200,
     )
 
@@ -402,7 +402,7 @@ def add_video_to_playlist(playlist_id: int, item: PlaylistItemCreate):
         connection.close()
 
     return JSONResponse(
-        content = {"message": f"Video '{video_data['title']}' added to playlist"},
+        content = {"message": f"Vídeo '{video_data['title']}' añadido a la playlist"},
         status_code = 201,
     )
 
@@ -436,6 +436,6 @@ def remove_video_from_playlist(playlist_id: int, twitch_video_id: str):
         raise HTTPException(status_code = 404, detail = "Vídeo no encontrado en esta playlist")
 
     return JSONResponse(
-        content = {"message": "Video removed from playlist successfully"},
+        content = {"message": "Vídeo eliminado de la playlist correctamente"},
         status_code = 200,
     )
