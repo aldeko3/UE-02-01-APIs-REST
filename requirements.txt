@@ -1,16 +1,12 @@
-# --- Framework Web & Servidor ---
 fastapi
 uvicorn
 
-# --- Base de Datos ---
 mysql-connector-python
 
-# --- Validación, Configuración y Red ---
 pydantic[email]
 python-dotenv
 requests
 
-# --- Testing & Calidad de Código ---
 pytest
 httpx
 ruff

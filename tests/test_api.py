@@ -1,9 +1,7 @@
 from fastapi.testclient import TestClient
-
 from main import app
 
 client = TestClient(app)
-
 
 def test_healthcheck():
     response = client.get("/health")
@@ -15,11 +13,10 @@ def test_create_user_invalid_email():
         "username": "asier_dev",
         "first_name": "Asier",
         "first_surname": "Aldekoa",
-        "email": "correo-no-valido",
+        "email": "correo-no-valido", # Coorreo no válido
     }
     response = client.post("/users", json=payload)
     assert response.status_code == 422
-
 
 def test_create_user_invalid_username():
     payload = {
