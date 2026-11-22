@@ -19,7 +19,13 @@ from services.twitch_service import (
     get_video_by_id,
 )
 
+# from contextlib import asynccontextmanager
 # from database.init_db import run_migrations
+
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     run_migrations()
+#     yield
 
 load_dotenv()
 
@@ -42,7 +48,8 @@ app = FastAPI(
         {"name": "Twitch", "description": "Consultas en tiempo real a la API de Twitch."},
         {"name": "Favoritos", "description": "Streamers favoritos asociados a cada usuario."},
         {"name": "Playlists", "description": "Colecciones personalizadas de vídeos de Twitch."},
-    ]
+    ],
+    # lifespan=lifespan,
 )
 
 def get_db():

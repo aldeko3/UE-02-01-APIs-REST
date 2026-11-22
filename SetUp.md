@@ -1,4 +1,4 @@
-# Configuración del Entorno e Integración con API Externa (Genius API)
+# Configuración del Entorno
 
 Este documento recoge los pasos realizados para preparar el entorno de desarrollo, gestionar las credenciales de seguridad y validar la comunicación con una API externa de música antes de implementar los endpoints de la API en FastAPI.
 
