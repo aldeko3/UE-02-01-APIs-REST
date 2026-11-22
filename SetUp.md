@@ -27,25 +27,3 @@ Por motivos de seguridad y buenas prácticas en control de versiones, las claves
 1. **Archivo `.env`:** Creado en la raíz del proyecto para almacenar los tokens y claves privadas en formato `CLAVE=VALOR`.
 2. **Archivo `.env.example`:** Plantilla sin valores reales para documentar qué variables de entorno requiere el proyecto.
 3. **Archivo `.gitignore`:** Configurado para excluir `.venv/`, `.env` y `__pycache__/` del repositorio remoto.
-
-Obtener claves de acceso de Twitch (TWITCH_CLIENT_ID y TWITCH_CLIENT_SECRET)
-Gestión del Token de Twitch y su caducidad
-https://dev.twitch.tv/docs/api
-
-Nombre (UE-02-01-APIs-REST): Identifica la app vinculándola con el proyecto y la asignatura.
-
-URL de redireccionamiento (http://localhost): Dirección local exigida por OAuth2 para desarrollo sin certificados SSL.
-
-Categoría (Application Integration): Clasifica el proyecto como una integración de backend mediante API.
-
-Tipo de cliente (Confidencial): Permite guardar de forma privada el Client Secret en el servidor (.env).
-
-Almacenar los valores en .env
-
-en DBeaver:
-
-CREATE DATABASE IF NOT EXISTS ue_02_01_apis_rest_twitch
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE ue_02_01_apis_rest_twitch;
