@@ -1,11 +1,5 @@
-# ==============================================================================
-# Archivo de Requerimientos - APIs REST (Flask & FastAPI)
-# Universidad Europea
-# ==============================================================================
-
-# --- Frameworks Web & Servidores ---
+# --- Framework Web & Servidor ---
 fastapi
-flask
 uvicorn
 
 # --- Base de Datos ---
@@ -16,10 +10,7 @@ pydantic[email]
 python-dotenv
 requests
 
-# --- Testing & Herramientas de Desarrollo ---
-openapi-generator-cli
+# --- Testing & Calidad de Código ---
 pytest
-
-# --- Jupyter Notebooks & Kernel ---
-ipykernel
-notebook
+httpx
+ruff

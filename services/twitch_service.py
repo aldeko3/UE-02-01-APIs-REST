@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import time
-from typing import Optional
+
 import requests
 
 _token_cache = {
@@ -8,7 +10,7 @@ _token_cache = {
 }
 
 # Se guarde en caché
-def get_twitch_token(client_id: str, client_secret: str) -> Optional[str]:
+def get_twitch_token(client_id: str, client_secret: str) -> str | None:
     now = time.time()
     if _token_cache["access_token"] and now < _token_cache["expires_at"]:
         return _token_cache["access_token"]

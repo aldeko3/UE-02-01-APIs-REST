@@ -1,23 +1,24 @@
 import os
-from contextlib import asynccontextmanager
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from mysql.connector import Error
 
+from configuration.connections import get_db_connection
 from models.models import (
-    UserCreate,
-    UserUpdate,
     FavoriteStreamerCreate,
     PlaylistCreate,
     PlaylistItemCreate,
+    UserCreate,
+    UserUpdate,
 )
-from configuration.connections import get_db_connection
 from services.twitch_service import (
     get_streamer_data,
     get_streamer_videos,
     get_video_by_id,
 )
+
 # from database.init_db import run_migrations
 
 load_dotenv()
@@ -53,10 +54,7 @@ def get_db():
     )
 
 
-# --------------------------- #
-# --------- GENERAL --------- #
-# --------------------------- #
-
+# GENERAL
 
 #He cambiado de "/" a "/health" porque veía en consola que se quejaba "GET /health HTTP/1.1" 404 Not Found
 @app.get("/health", tags = ["General"], summary = "Comprobación de estado de la API.")
@@ -64,10 +62,7 @@ def root():
     return {"message": "Hola Mundo!"}
 
 
-# --------------------------- #
-# ---------- USUARIOS ------- #
-# --------------------------- #
-
+# USUARIOS
 
 #he visto que por una regla de REST mejor en plural
 @app.get("/users", tags = ["Usuarios"], summary = "Listar todos los usuarios")
@@ -76,12 +71,12 @@ def get_users():
     myCursor = connection.cursor(dictionary = True)
 
     myCursor.execute("SELECT * FROM users;")
-    res = myCursor.fetchall()
+    users = myCursor.fetchall()
 
     # importante cerrar el cursor y la conexión
     myCursor.close() 
     connection.close()
-    return res
+    return users
 
 
 @app.post("/users", tags = ["Usuarios"], summary = "Crear un nuevo usuario")
@@ -172,9 +167,7 @@ def delete_user(user_id: int):
     )
 
 
-# --------------------------- #
-# --------- TWITCH ---------- #
-# --------------------------- #
+# TWITCH
 
 @app.get("/twitch/streamers/{login}", tags = ["Twitch"], summary = "Buscar datos de un streamer en Twitch")
 def get_twitch_streamer(login: str):
@@ -192,9 +185,7 @@ def get_twitch_streamer_videos(login: str):
     return JSONResponse(content = data, status_code = 200)
 
 
-# --------------------------- #
-# --- STREAMERS FAVORITOS --- #
-# --------------------------- #
+# STREAMERS FAVORITOS
 
 @app.get("/users/{user_id}/favorites", tags = ["Favoritos"], summary = "Listar streamers favoritos de un usuario")
 def get_user_favorite_streamers(user_id: int):
@@ -286,9 +277,7 @@ def delete_favorite_streamer(user_id: int, twitch_streamer_id: str):
     )
 
 
-# --------------------------- #
-# -------- PLAYLISTS -------- #
-# --------------------------- #
+# PLAYLISTS
 
 @app.get("/users/{user_id}/playlists", tags = ["Playlists"], summary = "Listar playlists y vídeos de un usuario")
 def get_user_playlists(user_id: int):
