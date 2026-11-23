@@ -19,6 +19,8 @@ from services.twitch_service import (
     get_video_by_id,
 )
 
+# Esto permitiría que las migraciones se ejecuten automáticamente cuando la aplicación FastAPI se inicie.
+
 # from contextlib import asynccontextmanager
 # from database.init_db import run_migrations
 
