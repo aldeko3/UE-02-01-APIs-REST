@@ -1,4 +1,5 @@
-# Para las pruebas he creado la base de datos y las tablas con sus columans directamente en DBeaver pero he visto que es una buena práctica guardar el schema para migraciones
+/* Para las pruebas he creado la base de datos y las tablas con sus columans directamente en DBeaver
+pero he visto que es una buena práctica guardar el schema para migraciones */
 
 CREATE DATABASE IF NOT EXISTS ue_02_01_apis_rest_twitch
     CHARACTER SET utf8mb4
