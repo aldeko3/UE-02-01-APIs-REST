@@ -70,6 +70,9 @@ def get_db():
 def root():
     return {"message": "Hola Mundo!"}
 
+@app.get("/", tags = ["General"], summary = "Endpoint raíz del servicio")
+def root():
+    return {"message": "Endpoint raíz del servicio"}
 
 # USUARIOS
 
@@ -77,7 +80,7 @@ def root():
 @app.get("/users", tags = ["Usuarios"], summary = "Listar todos los usuarios")
 def get_users():
     connection = get_db()
-    myCursor = connection.cursor(dictionary = True)
+    myCursor = connection.cursor(dictionary = True) # que lo devuelva como diccionario y no como tupla, para que se pueda convertir a JSON
 
     myCursor.execute("SELECT * FROM users;")
     users = myCursor.fetchall()
@@ -86,7 +89,6 @@ def get_users():
     myCursor.close() 
     connection.close()
     return users
-
 
 @app.post("/users", tags = ["Usuarios"], summary = "Crear un nuevo usuario")
 def create_user(user: UserCreate):
@@ -115,7 +117,6 @@ def create_user(user: UserCreate):
         content = {"message": "Usuario creado correctamente"},
         status_code = 201,
     )
-
 
 @app.put("/users/{user_id}", tags = ["Usuarios"], summary = "Actualizar un usuario existente")
 def update_user(user_id: int, user: UserUpdate):
@@ -154,7 +155,6 @@ def update_user(user_id: int, user: UserUpdate):
         status_code = 200,
     )
 
-
 @app.delete("/users/{user_id}", tags = ["Usuarios"], summary = "Eliminar un usuario")
 def delete_user(user_id: int):
     connection = get_db()
@@ -175,7 +175,6 @@ def delete_user(user_id: int):
         status_code = 200,
     )
 
-
 # TWITCH
 
 @app.get("/twitch/streamers/{login}", tags = ["Twitch"], summary = "Buscar datos de un streamer en Twitch")
@@ -192,7 +191,6 @@ def get_twitch_streamer_videos(login: str):
     if "error" in data:
         raise HTTPException(status_code = 404, detail = data["error"])
     return JSONResponse(content = data, status_code = 200)
-
 
 # STREAMERS FAVORITOS
 
@@ -214,7 +212,6 @@ def get_user_favorite_streamers(user_id: int):
     connection.close()
 
     return favorites
-
 
 @app.post("/users/{user_id}/favorites", tags = ["Favoritos"], summary = "Añadir un streamer a favoritos")
 def add_favorite_streamer(user_id: int, favorite: FavoriteStreamerCreate):
@@ -255,7 +252,6 @@ def add_favorite_streamer(user_id: int, favorite: FavoriteStreamerCreate):
         status_code = 201,
     )
 
-
 @app.delete("/users/{user_id}/favorites/{twitch_streamer_id}", tags = ["Favoritos"], summary = "Eliminar un streamer de favoritos",)
 def delete_favorite_streamer(user_id: int, twitch_streamer_id: str):
     connection = get_db()
@@ -285,7 +281,6 @@ def delete_favorite_streamer(user_id: int, twitch_streamer_id: str):
         status_code = 200,
     )
 
-
 # PLAYLISTS
 
 @app.get("/users/{user_id}/playlists", tags = ["Playlists"], summary = "Listar playlists y vídeos de un usuario")
@@ -313,7 +308,6 @@ def get_user_playlists(user_id: int):
     connection.close()
 
     return playlists
-
 
 @app.post("/users/{user_id}/playlists", tags = ["Playlists"], summary = "Crear una nueva playlist")
 def create_playlist(user_id: int, playlist: PlaylistCreate):
@@ -345,7 +339,6 @@ def create_playlist(user_id: int, playlist: PlaylistCreate):
         status_code = 201,
     )
 
-
 @app.delete("/playlists/{playlist_id}", tags = ["Playlists"], summary = "Eliminar una playlist")
 def delete_playlist(playlist_id: int):
     connection = get_db()
@@ -365,7 +358,6 @@ def delete_playlist(playlist_id: int):
         content = {"message": "Playlist eliminada correctamente"},
         status_code = 200,
     )
-
 
 @app.post("/playlists/{playlist_id}/items", tags = ["Playlists"], summary = "Añadir un vídeo a una playlist")
 def add_video_to_playlist(playlist_id: int, item: PlaylistItemCreate):
@@ -407,7 +399,6 @@ def add_video_to_playlist(playlist_id: int, item: PlaylistItemCreate):
         content = {"message": f"Vídeo '{video_data['title']}' añadido a la playlist"},
         status_code = 201,
     )
-
 
 @app.delete(
     "/playlists/{playlist_id}/items/{twitch_video_id}",

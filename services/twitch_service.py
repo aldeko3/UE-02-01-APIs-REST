@@ -1,7 +1,5 @@
 from __future__ import annotations
-
 import time
-
 import requests
 
 _token_cache = {
@@ -9,7 +7,7 @@ _token_cache = {
     "expires_at": 0.0,
 }
 
-# Se guarde en caché
+# He cmbiado la función, ahora guarda en caché
 def get_twitch_token(client_id: str, client_secret: str) -> str | None:
     now = time.time()
     if _token_cache["access_token"] and now < _token_cache["expires_at"]:
@@ -36,7 +34,6 @@ def get_twitch_token(client_id: str, client_secret: str) -> str | None:
         return access_token
     except requests.exceptions.RequestException:
         return None
-
 
 def get_streamer_data(login: str, client_id: str, client_secret: str) -> dict:
     token = get_twitch_token(client_id, client_secret)
@@ -81,7 +78,7 @@ def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
 
     token = get_twitch_token(client_id, client_secret)
     if not token:
-        return {"error": "No se pudo autenticar con la API de Twitch"}
+        return {"error": "No se ha podido autenticar con la API de Twitch"}
 
     url = "https://api.twitch.tv/helix/videos"
     headers = {
@@ -90,7 +87,7 @@ def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
     }
     params = {
         "user_id": streamer["twitch_streamer_id"],
-        "first": 10,  # Devuelve los últimos 10 vídeos/directos
+        "first": 10,
     }
 
     try:
@@ -123,7 +120,7 @@ def get_streamer_videos(login: str, client_id: str, client_secret: str) -> dict:
 def get_video_by_id(video_id: str, client_id: str, client_secret: str) -> dict:
     token = get_twitch_token(client_id, client_secret)
     if not token:
-        return {"error": "No se pudo autenticar con la API de Twitch"}
+        return {"error": "No se ha pdido autenticar con la API de Twitch"}
 
     url = "https://api.twitch.tv/helix/videos"
     headers = {
